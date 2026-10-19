@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أداة الفحص التشخيصي للجهاز</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #0284c7;
+            --primary-hover: #0369a1;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 16px;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            max-width: 520px;
+            width: 100%;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            color: #38bdf8;
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .section-title {
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+            color: #e2e8f0;
+            border-right: 3px solid #38bdf8;
+            padding-right: 8px;
+        }
+
+        .checkbox-group {
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            color: #cbd5e1;
+            line-height: 1.5;
+        }
+
+        .checkbox-label input {
+            margin-top: 3px;
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary);
+        }
+
+        .diagnostics-box {
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+            max-height: 190px;
+            overflow-y: auto;
+            line-height: 1.9;
+            color: #cbd5e1;
+        }
+
+        .diagnostics-box strong {
+            color: #38bdf8;
+        }
+
+        button.btn-primary {
+            width: 100%;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, opacity 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button.btn-primary:hover:not(:disabled) {
+            background-color: var(--primary-hover);
+        }
+
+        button.btn-primary:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+        .status-alert {
+            margin-top: 16px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            display: none;
+            text-align: center;
+        }
+
+        .status-alert.info {
+            display: block;
+            background-color: rgba(2, 132, 199, 0.15);
+            border: 1px solid var(--primary);
+            color: #38bdf8;
+        }
+
+        .status-alert.success {
+            display: block;
+            background-color: rgba(34, 197, 94, 0.15);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .status-alert.danger {
+            display: block;
+            background-color: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+        }
+
+        .status-alert.warning {
+            display: block;
+            background-color: rgba(245, 158, 11, 0.15);
+            border: 1px solid var(--warning);
+            color: var(--warning);
+        }
+
+        footer {
+            margin-top: 18px;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+<main class="container">
+    <header>
+        <h1>أداة الفحص التشخيصي للجهاز</h1>
+        <p>فحص وتدقيق للخصائص الفنية المتاحة عبر المتصفح لتقييم بصمة النظام بموافقة صريحة.</p>
+    </header>
+
+    <div class="section-title">الموافقات المطلوبة</div>
+    <div class="checkbox-group">
+        <label class="checkbox-label">
+            <input type="checkbox" id="consentCheck">
+            <span>أوافق صراحة على جمع الخصائص الفنية الموضحة أدناه وإرسالها لبوت الفحص.</span>
+        </label>
+        <label class="checkbox-label">
+            <input type="checkbox" id="locationCheck">
+            <span>مشاركة موقعي الجغرافي التقريبي (اختياري، يتطلب منح إذن المتصفح).</span>
+        </label>
+    </div>
+
+    <div class="section-title">المعلومات المكتشفة محلياً</div>
+    <div class="diagnostics-box" id="previewBox">
+        جاري تحليل المعايير الفنية من المتصفح...
+    </div>
+
+    <button type="button" class="btn-primary" id="submitBtn">
+        <span id="btnText">بدء الفحص وإرسال التقرير</span>
+    </button>
+
+    <div id="statusAlert" class="status-alert"></div>
+
+    <footer>مشروع معمل الفحص السيبراني • تمكين التحقق الآمن</footer>
+</main>
+
+<script>
+    "use strict";
+
+    const consentCheck = document.getElementById("consentCheck");
+    const locationCheck = document.getElementById("locationCheck");
+    const previewBox = document.getElementById("previewBox");
+    const submitBtn = document.getElementById("submitBtn");
+    const btnText = document.getElementById("btnText");
+    const statusAlert = document.getElementById("statusAlert");
+
+    function collectSystemInfo() {
+        const ua = navigator.userAgent || "غير متاح";
+        const platform = navigator.platform || "غير متاح";
+        const language = navigator.language || "غير متاح";
+        const screen = `${window.screen.width}x${window.screen.height} (${window.screen.colorDepth}-bit)`;
+        const cores = navigator.hardwareConcurrency ? `${navigator.hardwareConcurrency} أنوية` : "غير مصرح به";
+        
+        let timezone = "غير محدد";
+        try {
+            timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        } catch (e) {
+            timezone = "غير متاح";
+        }
+
+        let os = "غير معروف";
+        if (/android/i.test(ua)) os = "Android";
+        else if (/iphone|ipad|ipod/i.test(ua)) os = "iOS";
+        else if (/windows/i.test(ua)) os = "Windows";
+        else if (/linux/i.test(ua)) os = "Linux";
+        else if (/mac/i.test(ua)) os = "macOS";
+
+        let browser = "متصفح قياسي";
+        if (/chrome|crios/i.test(ua) && !/edge|opr\//i.test(ua)) browser = "Google Chrome";
+        else if (/firefox|fxios/i.test(ua)) browser = "Mozilla Firefox";
+        else if (/safari/i.test(ua) && !/chrome/i.test(ua)) browser = "Apple Safari";
+        else if (/edg/i.test(ua)) browser = "Microsoft Edge";
+
+        return { ua, platform, language, screen, cores, timezone, os, browser };
+    }
+
+    const systemInfo = collectSystemInfo();
+
+    function renderPreview() {
+        previewBox.innerHTML = `
+            <strong>نظام التشغيل:</strong> ${systemInfo.os}<br>
+            <strong>المتصفح:</strong> ${systemInfo.browser}<br>
+            <strong>المنصة المعلنة:</strong> ${systemInfo.platform}<br>
+            <strong>اللغة:</strong> ${systemInfo.language}<br>
+            <strong>أبعاد الشاشة:</strong> ${systemInfo.screen}<br>
+            <strong>المنطقة الزمنية:</strong> ${systemInfo.timezone}<br>
+            <strong>أنوية المعالج:</strong> ${systemInfo.cores}
+        `;
+    }
+    renderPreview();
+
+    function setAlert(type, message) {
+        statusAlert.className = `status-alert ${type}`;
+        statusAlert.textContent = message;
+    }
+
+    function clearAlert() {
+        statusAlert.className = "status-alert";
+        statusAlert.textContent = "";
+    }
+
+    function getCoordinates() {
+        return new Promise((resolve) => {
+            if (!("geolocation" in navigator)) {
+                resolve({ success: false, reason: "المتصفح لا يدعم تحديد الموقع الجغرافي." });
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    resolve({
+                        success: true,
+                        coords: {
+                            latitude: pos.coords.latitude,
+                            longitude: pos.coords.longitude,
+                            accuracy: Math.round(pos.coords.accuracy)
+                        }
+                    });
+                },
+                (err) => {
+                    let reason = "تم رفض إذن الوصول إلى الموقع من قبل المستخدم أو النظام.";
+                    if (err.code === 2) reason = "تعذر تحديد الموقع الجغرافي من الشبكة.";
+                    if (err.code === 3) reason = "انتهت مهلة طلب الموقع.";
+                    resolve({ success: false, reason });
+                },
+                { timeout: 10000, enableHighAccuracy: false }
+            );
+        });
+    }
+
+    submitBtn.addEventListener("click", async () => {
+        clearAlert();
+
+        if (!consentCheck.checked) {
+            setAlert("warning", "يرجى تحديد مربع الموافقة على إرسال التقرير أولاً للمتابعة.");
+            return;
+        }
+
+        submitBtn.disabled = true;
+        btnText.textContent = "جاري الفحص والمعالجة...";
+        setAlert("info", "جاري إعداد التقرير والتواصل مع الخادم...");
+
+        let locationInfo = { included: false };
+
+        if (locationCheck.checked) {
+            btnText.textContent = "جاري طلب إذن الموقع...";
+            const locResult = await getCoordinates();
+            if (locResult.success) {
+                locationInfo = {
+                    included: true,
+                    latitude: locResult.coords.latitude,
+                    longitude: locResult.coords.longitude,
+                    accuracy: locResult.coords.accuracy
+                };
+            } else {
+                setAlert("warning", `تنبيه: ${locResult.reason} سيتم إرسال بقية التقرير الفني فقط.`);
+                await new Promise(r => setTimeout(r, 1800));
+            }
+        }
+
+        btnText.textContent = "جاري إرسال التقرير للخادم...";
+
+        try {
+            const response = await fetch("/.netlify/functions/send-report", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    consentGiven: true,
+                    systemInfo: systemInfo,
+                    locationInfo: locationInfo
+                })
+            });
+
+            const result = await response.json();
+
+            if (response.ok && result.ok) {
+                setAlert("success", "✓ تم إرسال التقرير التشخيصي بنجاح إلى البوت.");
+                btnText.textContent = "تم الإرسال بنجاح";
+            } else {
+                const errorMsg = result.details || result.error || "حدث خطأ غير متوقع أثناء معالجة الخادم";
+                setAlert("danger", `فشل الإرسال: ${errorMsg}`);
+                submitBtn.disabled = false;
+                btnText.textContent = "إعادة المحاولة";
+            }
+        } catch (netErr) {
+            setAlert("danger", "تعذر الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت أو إعدادات الشبكة.");
+            submitBtn.disabled = false;
+            btnText.textContent = "إعادة المحاولة";
+        }
+    });
+</script>
+
+</body>
+</html>
